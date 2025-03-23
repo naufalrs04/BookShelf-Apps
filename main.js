@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function addBook() {
     const title = document.getElementById("bookFormTitle").value;
     const author = document.getElementById("bookFormAuthor").value;
-    const year = document.getElementById("bookFormYear").value;
+    const year = Number(document.getElementById("bookFormYear").value);
     const isComplete = document.getElementById("bookFormIsComplete").checked;
 
     const generateID = generateId();
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
       isComplete,
     };
   }
-
+  
   const books = [];
   const RENDER_EVENT = "render-book";
 
@@ -110,22 +110,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const bookTitle = document.createElement("h3");
     bookTitle.innerText = bookObject.title;
     bookTitle.setAttribute("data-testid", "bookItemTitle");
-
+ 
     const bookAuthor = document.createElement("p");
     bookAuthor.innerText = `Penulis: ${bookObject.author}`;
     bookAuthor.setAttribute("data-testid", "bookItemAuthor");
-
+  
     const bookYear = document.createElement("p");
     bookYear.innerText = `Tahun: ${bookObject.year}`;
     bookYear.setAttribute("data-testid", "bookItemYear");
-
+  
     const bookContainer = document.createElement("div");
-    bookContainer.classList.add("book-item");
+    bookContainer.setAttribute("data-bookid", bookObject.id);
     bookContainer.setAttribute("data-testid", "bookItem");
+  
     bookContainer.append(bookTitle, bookAuthor, bookYear);
-
+  
     const bookAction = document.createElement("div");
-
+  
     if (bookObject.isComplete) {
       const undoButton = document.createElement("button");
       undoButton.innerText = "Belum selesai dibaca";
@@ -133,49 +134,50 @@ document.addEventListener("DOMContentLoaded", function () {
       undoButton.addEventListener("click", function () {
         undoBookFromComplete(bookObject.id);
       });
-
+  
       const deleteButton = document.createElement("button");
       deleteButton.innerText = "Hapus buku";
       deleteButton.setAttribute("data-testid", "bookItemDeleteButton");
       deleteButton.addEventListener("click", function () {
         deleteBook(bookObject.id);
       });
-
+  
       const editButton = document.createElement("button");
       editButton.innerText = "Edit buku";
       editButton.setAttribute("data-testid", "bookItemEditButton");
       editButton.addEventListener("click", function () {
         openEditModal(bookObject.id);
       });
-
+  
       bookAction.append(undoButton, deleteButton, editButton);
-    } else {
+    } 
+    else {
       const checkButton = document.createElement("button");
       checkButton.innerText = "Selesai dibaca";
       checkButton.setAttribute("data-testid", "bookItemIsCompleteButton");
       checkButton.addEventListener("click", function () {
         addBookToComplete(bookObject.id);
       });
-
+  
       const deleteButton = document.createElement("button");
       deleteButton.innerText = "Hapus buku";
       deleteButton.setAttribute("data-testid", "bookItemDeleteButton");
       deleteButton.addEventListener("click", function () {
         deleteBook(bookObject.id);
       });
-
+  
       const editButton = document.createElement("button");
       editButton.innerText = "Edit buku";
       editButton.setAttribute("data-testid", "bookItemEditButton");
       editButton.addEventListener("click", function () {
         openEditModal(bookObject.id);
       });
-
+  
       bookAction.append(checkButton, deleteButton, editButton);
     }
 
     bookContainer.append(bookAction);
-
+  
     return bookContainer;
   }
 
@@ -273,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       books[bookIndex].title = document.getElementById("editFormTitle").value;
       books[bookIndex].author = document.getElementById("editFormAuthor").value;
-      books[bookIndex].year = document.getElementById("editFormYear").value;
+      books[bookIndex].year = Number(document.getElementById("editFormYear").value);
       books[bookIndex].isComplete =
         document.getElementById("editFormIsComplete").checked;
 
